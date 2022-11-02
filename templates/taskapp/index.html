@@ -1,0 +1,44 @@
+{% extends '../base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="row mt-5">
+    <div class="col-12 d-flex justify-content-center">
+        <form method="post" class="w-50 d-flex justify-content-between">
+            {% csrf_token %}
+            {{form}}
+            <input type="submit" value="Add Task">
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 d-flex justify-content-center">
+        <hr class="bg-danger border-2 border-top border-danger w-50">
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-12 d-flex justify-content-center">
+        <ul class="list-group w-50">
+            {% for task in tasks %}
+            <li class="list-group-item">
+              <!-- <input class="form-check-input me-1" type="checkbox" value="{{task.id}}" name="tasks" id="firstCheckboxStretched">
+              <label class="form-check-label stretched-link text-decoration-line-through" for="firstCheckboxStretched">{{task.name}}</label> -->
+              <form id="myform" method="post">{% csrf_token %}</form>
+              {% if task.completed == False %}
+              <a onclick="document.getElementById('myform').submit();"href="{% url 'update_task' task.pk %}" class="btn btn-primary btn-sm">Not completed</a>
+                {% else %}
+                <a onclick="document.getElementById('myform').submit();"href="{% url 'update_task' task.pk %}" class="btn btn-primary btn-sm">Completed</a>
+                {% endif %}
+                {{task.name}}
+            </li>
+            {% endfor %}
+          </ul>
+    </div>
+</div>
+        
+{% endblock content %}
+    
